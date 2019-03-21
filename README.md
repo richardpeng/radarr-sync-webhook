@@ -1,13 +1,15 @@
-# Radarr Sync
+# Radarr Sync Webhook
 
-Radarr Sync is a Radarr webhook that automatically adds downloaded Ultra-HD movies to another Radarr instance
+Radarr Sync Webhook adds downloaded Ultra-HD movies on a Radarr instance to another Radarr instance automatically.
 
 ## Requirements
 
 - Two Radarr instances
 - Node.js / Docker
 
-## Setup
+## Usage
+
+### Radarr Setup
 
 1. On your main Radarr instance, create a new webhook:
     1. Run "On Download" and "On Upgrade"
@@ -15,31 +17,31 @@ Radarr Sync is a Radarr webhook that automatically adds downloaded Ultra-HD movi
     1. Method: `POST`
 1. On your secondary Radarr instance, check only the resolutions you want to download in the `Any` profile and, optionally, set an appropriate cutoff.
 
-## Usage
+### Manual methods
+
+In addition to the `/import` webhook, you can also trigger syncs manually.
+
+#### `/import/:id`
+
+Adds movie `id` from the main instance to the secondary instance. You can get a list of ids using the [API](https://github.com/Radarr/Radarr/wiki/API:Movie#get).
+
+Example: `curl -XPOST http://localhost:3000/import/1`
+
+#### `/import_all` 
+
+Adds all Ultra-HD movies from the main instance to the secondary instance.
+
+Example: `curl -XPOST http://localhost:3000/import_all`
+
+## Installation
 
 ### Node.js
 
-#### Installation
-
 Install node modules: `npm install`
-
-#### Running
-
-```
-PORT=3000 \
-SRC_APIKEY=apikey \
-DST_APIKEY=apikey \
-SRC_ROOT="/my/UHD/Movies" \
-DST_ROOT="/my/HD/Movies" \
-SRC_HOST=http://localhost:7878 \
-DST_HOST=http://localhost:9090 \
-npm start
-```
 
 ### Docker
 
-#### Installation
-
+Create Docker image:
 ```
 docker create \
 --name=radarr-sync \
@@ -54,7 +56,22 @@ docker create \
 radarr-sync:latest
 ```
 
-#### Running
+## Running
+
+### Node.js
+
+```
+PORT=3000 \
+SRC_APIKEY=apikey \
+DST_APIKEY=apikey \
+SRC_ROOT="/my/UHD/Movies" \
+DST_ROOT="/my/HD/Movies" \
+SRC_HOST=http://localhost:7878 \
+DST_HOST=http://localhost:9090 \
+npm start
+```
+
+### Docker
 
 ```
 docker start radarr-sync
