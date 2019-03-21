@@ -1,7 +1,16 @@
 {
-  "name": "radarr-sync",
-  "version": "0.0.0",
-  "private": true,
+  "name": "radarr-sync-webhook",
+  "version": "1.0.0",
+  "description": "Radarr Sync Webhook adds downloaded Ultra-HD movies on a Radarr instance to another Radarr instance automatically.",
+  "keywords": ["radarr", "sync", "webhook"],
+  "license": "MIT",
+  "homepage": "https://github.com/richardpeng/radarr-sync-webhook",
+  "bugs": "https://github.com/richardpeng/radarr-sync-webhook/issues",
+  "author": {
+    "name": "Richard Peng",
+    "email": "richard@richardpeng.com",
+    "url": "http://richardpeng.com"
+  },
   "scripts": {
     "start": "node ./bin/www"
   },
