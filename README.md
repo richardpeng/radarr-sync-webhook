@@ -13,8 +13,11 @@ Radarr Sync Webhook adds downloaded movies from a Radarr instance to another Rad
 
 1. On your main Radarr instance, create a new webhook:
     1. Run "On Download" and "On Upgrade"
-    1. URL should point to `/import` and specify a comma-separated whitelist of resolutions to sync. For example, `http://localhost:3000/import?resolutions=r2160P,r1080P`. 
-        Currently valid resolutions: `r2160P`, `r1080P`, `r720P`, `r480P`, `unknown`  
+    1. URL should point to `/import` and specify the following query parameters:
+        1. `resolutions` (Required): A comma-separated whitelist of resolutions to sync. 
+        Current valid resolutions: `r2160P`, `r1080P`, `r720P`, `r480P`, `unknown`  
+        1. `profile` (Optional): Quality profile id to use. Defaults to `1` for "Any". Get a list of profile ids from the `/api/profile` endpoint on the secondary instance.
+        1. Example URL: `http://localhost:3000/import?resolutions=r2160P,r1080P&profile=4`. 
     1. Method: `POST`
 1. On your secondary Radarr instance, check only the resolutions you want to download in the `Any` profile and, optionally, set an appropriate cutoff.
 

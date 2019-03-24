@@ -1,0 +1,30 @@
+GET https://radarr-hd.richardpeng.com/api/profile?apikey=efb48f6abbbd4824926a4bae093614f9
+
+<> 2019-03-24T033421.200.json
+
+###
+
+GET https://radarr-hd.richardpeng.com/api/profile?apikey=efb48f6abbbd4824926a4bae093614f9
+
+<> 2019-03-24T010636.200.json
+
+###
+
+GET https://radarr-hd.richardpeng.com/api/qualitydefinition?apikey=efb48f6abbbd4824926a4bae093614f9
+
+<> 2019-03-24T125443.200.json
+
+###
+
+GET https://radarr-hd.richardpeng.com/api/qualitydefinition?apikey=efb48f6abbbd4824926a4bae093614f9
+
+<> 2019-03-24T125010.200.json
+
+###
+
+GET https://radarr-hd.richardpeng.com/api/qualityprofiles?apikey=efb48f6abbbd4824926a4bae093614f9
+
+<> 2019-03-24T124945.404.json
+
+###
+

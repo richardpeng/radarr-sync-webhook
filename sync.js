@@ -18,7 +18,7 @@ const log = (message, title) => {
   return msg;
 };
 
-const addMovie = (json, resolutions) => {
+const addMovie = (json, resolutions, profile) => {
   if (!json.downloaded) {
     return log('Not downloaded. Skipping.', json.title);
   }
@@ -26,13 +26,17 @@ const addMovie = (json, resolutions) => {
     title, titleSlug, tmdbId, year, movieFile: { quality: { quality: { resolution = '' } } },
   } = json;
   const path = json.path.replace(src.root, dst.root);
+  const qualityProfileId = parseInt(profile, 10);
+  if (Number.isNaN(qualityProfileId)) {
+    return log(`Quality profile id must be an integer. Got '${profile}'`);
+  }
   const payload = {
     title,
     titleSlug,
     tmdbId,
     year,
     path,
-    qualityProfileId: 1,
+    qualityProfileId,
     images: [],
     addOptions: {
       searchForMovie: true,
@@ -46,15 +50,15 @@ const addMovie = (json, resolutions) => {
     .catch(() => log('Unable to add movie', title));
 };
 
-const sync = ({ id, resolutions }) => axios.get(`${src.host}/api/movie/${id}?apikey=${src.apikey}`)
+const sync = ({ id, resolutions, profile }) => axios.get(`${src.host}/api/movie/${id}?apikey=${src.apikey}`)
   .then((data) => {
     if (data.message === 'Not Found') {
       return log(`Movie id not found: ${id}`);
     }
-    return addMovie(data.data, resolutions);
+    return addMovie(data.data, resolutions, profile);
   });
 
-const importAll = ({ resolutions }) => axios.get(`${src.host}/api/movie?apikey=${src.apikey}`)
-  .then(data => data.data.map(d => addMovie(d, resolutions)).filter(movie => movie));
+const importAll = ({ resolutions, profile }) => axios.get(`${src.host}/api/movie?apikey=${src.apikey}`)
+  .then(data => data.data.map(d => addMovie(d, resolutions, profile)).filter(movie => movie));
 
 module.exports = { sync, importAll };
