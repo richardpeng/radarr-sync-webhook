@@ -1,6 +1,6 @@
 # Radarr Sync Webhook
 
-Radarr Sync Webhook adds downloaded Ultra-HD movies on a Radarr instance to another Radarr instance automatically.
+Radarr Sync Webhook adds downloaded movies from a Radarr instance to another Radarr instance automatically.
 
 ## Requirements
 
@@ -13,7 +13,8 @@ Radarr Sync Webhook adds downloaded Ultra-HD movies on a Radarr instance to anot
 
 1. On your main Radarr instance, create a new webhook:
     1. Run "On Download" and "On Upgrade"
-    1. URL should point to `/import`. For example, `http://localhost:3000/import`
+    1. URL should point to `/import` and specify a comma-separated whitelist of resolutions to sync. For example, `http://localhost:3000/import?resolutions=r2160P,r1080P`. 
+        Currently valid resolutions: `r2160P`, `r1080P`, `r720P`, `r480P`, `unknown`  
     1. Method: `POST`
 1. On your secondary Radarr instance, check only the resolutions you want to download in the `Any` profile and, optionally, set an appropriate cutoff.
 

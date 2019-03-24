@@ -12,14 +12,15 @@ const dst = {
   root: process.env.DST_ROOT,
 };
 
-const log = (title, message) => {
-  console.log(`${title}: ${message}`);
+const log = (message, title) => {
+  const msg = title ? `${title}: ${message}` : message;
+  console.log(msg);
+  return msg;
 };
 
-const addMovie = (json) => {
+const addMovie = (json, resolutions) => {
   if (!json.downloaded) {
-    log(json.title, 'Not downloaded. Skipping.');
-    return false;
+    return log('Not downloaded. Skipping.', json.title);
   }
   const {
     title, titleSlug, tmdbId, year, movieFile: { quality: { quality: { resolution = '' } } },
@@ -37,31 +38,23 @@ const addMovie = (json) => {
       searchForMovie: true,
     },
   };
-  const regex = /\d+/;
-  if (!regex.test(resolution) || parseInt(resolution.match(regex)[0], 10) <= 1080) {
-    log(title, 'Not a UHD video');
-    return false;
+  if (!resolutions.includes(resolution)) {
+    return log(`Resolution '${resolution}' is not a synced resolution: ${resolutions}`, title);
   }
   return axios.post(`${dst.host}/api/movie?apikey=${dst.apikey}`, payload)
-    .then(() => {
-      log(title, 'Synced!');
-      return title;
-    })
-    .catch(() => {
-      log(title, 'Unable to add movie');
-    });
+    .then(() => log('Synced!', title))
+    .catch(() => log('Unable to add movie', title));
 };
 
-const sync = id => axios.get(`${src.host}/api/movie/${id}?apikey=${src.apikey}`)
+const sync = ({ id, resolutions }) => axios.get(`${src.host}/api/movie/${id}?apikey=${src.apikey}`)
   .then((data) => {
     if (data.message === 'Not Found') {
-      console.log(`Movie id not found: ${id}`);
-      return false;
+      return log(`Movie id not found: ${id}`);
     }
-    return addMovie(data.data);
+    return addMovie(data.data, resolutions);
   });
 
-const importAll = () => axios.get(`${src.host}/api/movie?apikey=${src.apikey}`)
-  .then(data => data.data.map(addMovie).filter(movie => movie));
+const importAll = ({ resolutions }) => axios.get(`${src.host}/api/movie?apikey=${src.apikey}`)
+  .then(data => data.data.map(d => addMovie(d, resolutions)).filter(movie => movie));
 
 module.exports = { sync, importAll };
