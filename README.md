@@ -23,19 +23,19 @@ Radarr Sync Webhook adds downloaded movies from a Radarr instance to another Rad
 
 ### Manual methods
 
-In addition to the `/import` webhook, you can also trigger syncs manually.
+In addition to the `/import` webhook, you can also trigger syncs manually. The manual methods use the same URL parameters as the webhook.
 
 #### `/import/:id`
 
-Adds movie `id` from the main instance to the secondary instance. You can get a list of ids using the [API](https://github.com/Radarr/Radarr/wiki/API:Movie#get).
+Imports movie `id`. You can get a list of movie ids using the [API](https://github.com/Radarr/Radarr/wiki/API:Movie#get).
 
 Example: `curl -XPOST http://localhost:3000/import/1`
 
-#### `/import_all` 
+#### `/import/all` 
 
-Adds all Ultra-HD movies from the main instance to the secondary instance.
+Imports all movies.
 
-Example: `curl -XPOST http://localhost:3000/import_all`
+Example: `curl -XPOST http://localhost:3000/import/all`
 
 ## Installation
 
